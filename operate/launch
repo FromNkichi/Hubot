@@ -1,0 +1,12 @@
+#!/bin/bash
+
+directory=($(pwd))
+cd ~/Hubot
+if [ $1 = 'start' ]
+then
+    export HUBOT_SLACK_TOKEN=$(cat ./scripts/keys/hubot_slack.token)
+    ./bin/hubot --adapter slack
+elif [ $1 = 'stop' ]
+then
+    kill $(cat ./operate/hubot.pid)
+fi
