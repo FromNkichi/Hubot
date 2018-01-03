@@ -9,8 +9,14 @@ then
     sleep 10
     ARRAY=($(ps aux | grep hubot | grep slack))
     echo -n "${ARRAY[1]}" > ./operate/hubot.pid
-elif [ $1 = 'stop' ]
+fi
+if [ $1 = 'stop' ]
 then
     kill $(cat ./operate/hubot.pid)
+fi
+if [ $1 = 'reboot' ]
+then
+    operate/launch stop
+    operate/launch start
 fi
 cd ${directory}
