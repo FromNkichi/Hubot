@@ -87,6 +87,7 @@ module.exports = (hubot) => {
         }
 
         let pushGyazo = function(gyazo) {
+            const date = new Date();
             let picturePath = pictureFilePath;
             return new Promise((resolve, reject) => {
                 if (date.getDay() == sunday && date.getHours() < noon) {
