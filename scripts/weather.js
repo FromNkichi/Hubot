@@ -53,7 +53,7 @@ module.exports = (hubot) => {
 
         let response = function(msg) {
             return new Promise((resolve, reject) => {
-                hubot.messageRoom('general',msg);
+                hubot.messageRoom('weather',msg);
                 resolve();
             });
         }
