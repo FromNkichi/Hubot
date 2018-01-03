@@ -33,7 +33,7 @@ module.exports = (hubot) => {
 
         let tweet = function(twi) {
             return new Promise((resolve, reject) => {
-                twi.get('search/tweets', {q:'from:forecast_tokyo'}, (err, tweets, res) => {
+                twi.get('search/tweets', {q:'from:dmenu_tenki'}, (err, tweets, res) => {
                     if (!err) {
                         resolve(tweets.statuses[0].text);
                     } else {
