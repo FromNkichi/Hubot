@@ -6,6 +6,8 @@ const tokenFilePath = folder + '/scripts/keys/';
 const pictureFilePath = folder + '/scripts/bashes/';
 const Gyazo = require('gyazo-api');
 const exec = require('child_process').exec;
+const noon = 12;
+const sunday = 7;
 
 module.exports = (hubot) => {
     hubot.hear('weather', (res) => {
@@ -66,17 +68,34 @@ module.exports = (hubot) => {
         }
 
         let makePic = function(obj) {
+            const date = new Date();
+            let command = pictureFilePath + 'weather_image ';
             return new Promise((resolve, reject) => {
-                exec(pictureFilePath + 'weather_image today', (error, stdout, stderr)=> {
+                if (date.getDay() == sunday && date.getHours() < noon) {
+                    command += 'week';
+                } else if (date.getHours() < noon) {
+                    command += 'today';
+                } else {
+                    command += 'tomorrow';
+                }
+                exec(command, (error, stdout, stderr)=> {
                     console.log('hoge');
                     resolve(obj);
                 });
             });
+
         }
 
         let pushGyazo = function(gyazo) {
+            let picturePath = pictureFilePath;
             return new Promise((resolve, reject) => {
-                const picturePath = pictureFilePath + 'today.png';
+                if (date.getDay() == sunday && date.getHours() < noon) {
+                    picturePath += 'week.png';
+                } else if (date.getHours() < noon) {
+                    picturePath += 'today.png';
+                } else {
+                    picturePath += 'tomorrow.png';
+                }
                 gyazo.upload(picturePath, {
                     title: 'today',
                     desc : 'upload from nodejs'
