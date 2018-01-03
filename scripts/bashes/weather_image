@@ -6,10 +6,10 @@ xvfb-run wkhtmltoimage https://weather.yahoo.co.jp/weather/jp/13/4410.html pictu
 sleep 10
 if [ $1 = 'today' ]
 then
-    convert picture.png -crop 310x170+38+558 today.png
+    convert picture.png -crop 310x170+38+375 today.png
 elif [ $1 = 'tomorrow' ]
 then
-    convert picture.png -crop 310x170+358+558 tomorrow.png
+    convert picture.png -crop 310x170+358+375 tomorrow.png
 elif [ $1 = 'week' ]
 then
     convert picture.png -crop 640x225+35+680 week.png
