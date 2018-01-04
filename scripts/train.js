@@ -2,7 +2,10 @@ const client = require('cheerio-httpcli');
 const odakyuUrl = 'https://transit.yahoo.co.jp/traininfo/detail/109/0/';
 const keioUrl = 'https://transit.yahoo.co.jp/traininfo/detail/120/0/'; 
 const checkTimes = 1080;
-let text = '';
+const path = require('path');
+const fs = require('fs');
+const folder = path.resolve('./');
+const userFilePath = folder + '/scripts/users/';
 
 module.exports = (hubot) => {
     hubot.hear('routineCheck', (res) => {
@@ -73,5 +76,49 @@ module.exports = (hubot) => {
 
         pageSearchPromise
             .then(checkInterval);
+    });
+
+    hubot.hear('train', (res) => {
+        function myReadFile(file) {
+            return new Promise((resolve, reject) => {
+                fs.readFile(userFilePath + file, 'utf8', (err, text) => {
+                    const result = text.replace('\n', '');
+                    resolve(result);
+                });
+            });
+        }
+
+        let messageSend = function(users) {
+            return new Promise((resolve, reject) => {
+                if (res.message.user.name == users[0]) {
+                    client.fetch(keioUrl, function (err, $, response) {
+                        for (let i = 0; i < $('meta').length; i++) {
+                            if($('meta')[i].attribs.property == 'og:description') {
+                                let keioText = $('meta')[i].attribs.content.split('（');
+                                const keioMsg = '京王線：' + keioText[0];
+                                hubot.messageRoom('train', keioMsg);
+                            }
+                        }
+                    });
+                } else if (res.message.user.name == users[1]) {
+                    client.fetch(odakyuUrl, function (err, $, response) {
+                        for (let i = 0; i < $('meta').length; i++) {
+                            if($('meta')[i].attribs.property == 'og:description') {
+                                let odakyuText = $('meta')[i].attribs.content.split('（');
+                                const odakyuMsg = '小田急：' + odakyuText[0];
+                                hubot.messageRoom('train', odakyuMsg);
+                            }
+                        }
+                    });
+                } else {
+                    hubot.messageRoom('train', 'error');
+                }
+            });
+        }
+
+        let searchPromise = Promise.all([myReadFile('keio.user'), myReadFile('odakyu.user')]);
+
+        searchPromise
+            .then(messageSend);
     });
 }
