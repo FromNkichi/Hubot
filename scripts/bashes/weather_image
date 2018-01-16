@@ -2,17 +2,18 @@
 
 directory=($(pwd))
 cd ~/Hubot/scripts/bashes/
-xvfb-run wkhtmltoimage https://weather.yahoo.co.jp/weather/jp/13/4410.html picture.png &
+xvfb-run wkhtmltoimage http://weather.livedoor.com/area/forecast/1320800 picture.png &
 sleep 10
 if [ $1 = 'today' ]
 then
-    convert picture.png -crop 310x170+38+375 today.png
+    # width x height + PointX + PointY
+    convert picture.png -crop 645x250+35+305 today.png
 elif [ $1 = 'tomorrow' ]
 then
-    convert picture.png -crop 310x170+358+375 tomorrow.png
+    convert picture.png -crop 645x250+35+590 tomorrow.png
 elif [ $1 = 'week' ]
 then
-    convert picture.png -crop 640x225+35+680 week.png
+    convert picture.png -crop 645x185+35+845 week.png
 else
     echo 'error'
 fi
