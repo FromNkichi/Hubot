@@ -55,7 +55,7 @@ module.exports = (hubot) => {
 
         let response = function(msg) {
             return new Promise((resolve, reject) => {
-                hubot.messageRoom('weather',msg);
+                hubot.messageRoom('C8NFCKM39', msg);
                 resolve();
             });
         }
