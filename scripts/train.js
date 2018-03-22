@@ -47,7 +47,7 @@ module.exports = (hubot) => {
                     let odakyuText = $('meta')[odakyuPageKey].attribs.content.split('（');
                     const odakyuMsg = '小田急線:' + odakyuText[0];
                     if (odakyuText[0] != '現在､事故･遅延に関する情報はありません。') {
-                        hubot.messageRoom('train', odakyuMsg);
+                        hubot.messageRoom('C8NF9DX7Y', odakyuMsg);
                         clearInterval(check);
                     } else {
                         //console.log(odakyuMsg);
@@ -58,7 +58,7 @@ module.exports = (hubot) => {
                     let keioText = $('meta')[keioPageKey].attribs.content.split('（');
                     const keioMsg = '京王線:' + keioText[0];
                     if (keioText[0] != '現在､事故･遅延に関する情報はありません。') {
-                        hubot.messageRoom('train', keioMsg);
+                        hubot.messageRoom('C8NF9DX7Y', keioMsg);
                         clearInterval(check);
                     } else {
                         //console.log(keioMsg);
@@ -96,7 +96,7 @@ module.exports = (hubot) => {
                             if($('meta')[i].attribs.property == 'og:description') {
                                 let keioText = $('meta')[i].attribs.content.split('（');
                                 const keioMsg = '京王線：' + keioText[0];
-                                hubot.messageRoom('train', keioMsg);
+                                hubot.messageRoom('C8NF9DX7Y', keioMsg);
                             }
                         }
                     });
@@ -106,12 +106,12 @@ module.exports = (hubot) => {
                             if($('meta')[i].attribs.property == 'og:description') {
                                 let odakyuText = $('meta')[i].attribs.content.split('（');
                                 const odakyuMsg = '小田急：' + odakyuText[0];
-                                hubot.messageRoom('train', odakyuMsg);
+                                hubot.messageRoom('C8NF9DX7Y', odakyuMsg);
                             }
                         }
                     });
                 } else {
-                    hubot.messageRoom('train', 'error');
+                    hubot.messageRoom('C8NF9DX7Y', 'error');
                 }
             });
         }
